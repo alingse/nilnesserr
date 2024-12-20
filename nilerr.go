@@ -9,7 +9,7 @@ import (
 	"golang.org/x/tools/go/ssa"
 )
 
-var errType = types.Universe.Lookup("error").Type().Underlying().(*types.Interface)
+var errType = types.Universe.Lookup("error").Type().Underlying().(*types.Interface) // nolint: forcetypeassert
 
 func isErrType(res ssa.Value) bool {
 	return types.Implements(res.Type(), errType)
@@ -20,6 +20,7 @@ func isConstNil(res ssa.Value) bool {
 	if ok && v.IsNil() {
 		return true
 	}
+
 	return false
 }
 
@@ -30,6 +31,7 @@ func extractCheckedErrorValue(binOp *ssa.BinOp) ssa.Value {
 	if isErrType(binOp.Y) && isConstNil(binOp.X) {
 		return binOp.Y
 	}
+
 	return nil
 }
 

@@ -26,6 +26,8 @@ func TestAnalyzer(t *testing.T) {
 
 	for _, test := range testCases {
 		t.Run(test.desc, func(t *testing.T) {
+			t.Parallel()
+
 			a, err := nilnesserr.NewAnalyzer(test.settings)
 			if err != nil {
 				t.Fatal(err)

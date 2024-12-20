@@ -37,10 +37,12 @@ type analyzer struct {
 
 func newAnalyzer(setting LinterSetting) (*analyzer, error) {
 	a := &analyzer{setting: setting}
+
 	return a, nil
 }
 
 func (a *analyzer) run(pass *analysis.Pass) (interface{}, error) {
 	_, _ = a.checkNilnesserr(pass)
+
 	return nil, nil
 }
