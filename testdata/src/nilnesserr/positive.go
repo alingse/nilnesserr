@@ -1,7 +1,9 @@
 package a
 
 import (
+	"errors"
 	"fmt"
+	"io"
 	"math/rand/v2"
 )
 
@@ -101,4 +103,27 @@ func Call15() error {
 	} else {
 		return err // want `return a nil value error after check error`
 	}
+}
+
+type localError struct{}
+
+func (e localError) Error() string {
+	return "localErr"
+}
+
+func Call18() error {
+	err := Do()
+	if err != nil {
+		return err
+	}
+
+	_ = fmt.Errorf("call Do2 got err %w", err) // want `call fmt.Errorf with a nil value error after check error`
+	_ = errors.Is(err, io.EOF)                 // want `call errors.Is with a nil value error after check error`
+	_ = errors.Join(io.EOF, err)               // want `call errors.Join with a nil value error after check error`
+	_ = errors.As(err, new(localError))        // want `call errors.As with a nil value error after check error`
+	_ = errors.Unwrap(err)                     // want `call errors.Unwrap with a nil value error after check error`
+
+	_ = fmt.Sprintf("call Do2 got err %+v", err)
+
+	return nil
 }
