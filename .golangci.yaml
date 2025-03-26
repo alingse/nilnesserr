@@ -64,3 +64,8 @@ issues:
     - text: "newAnalyzer"
       linters:
         - unparam
+
+    - text: "indent-error-flow"
+      path: nilness.go
+      linters:
+        - revive
