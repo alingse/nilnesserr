@@ -116,14 +116,17 @@ func Call18() error {
 	if err != nil {
 		return err
 	}
+	err2 := Do2()
+	if err2 != nil {
+		_ = fmt.Errorf("call Do2 got err %w", err) // TODO
+		_ = errors.Is(err, io.EOF)                 // want `call function with a nil value error after check error`
+		_ = errors.Join(io.EOF, err)               // TODO
+		_ = errors.As(err, new(localError))        // want `call function with a nil value error after check error`
+		_ = errors.Unwrap(err)                     // want `call function with a nil value error after check error`
 
-	_ = fmt.Errorf("call Do2 got err %w", err) // want `call fmt.Errorf with a nil value error after check error`
-	_ = errors.Is(err, io.EOF)                 // want `call errors.Is with a nil value error after check error`
-	_ = errors.Join(io.EOF, err)               // want `call errors.Join with a nil value error after check error`
-	_ = errors.As(err, new(localError))        // want `call errors.As with a nil value error after check error`
-	_ = errors.Unwrap(err)                     // want `call errors.Unwrap with a nil value error after check error`
-
-	_ = fmt.Sprintf("call Do2 got err %+v", err)
+		_ = fmt.Sprintf("call Do2 got err %+v", err)
+		return fmt.Errorf("call Do2 got err %w", err) // TODO
+	}
 
 	return nil
 }
