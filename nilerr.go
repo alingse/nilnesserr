@@ -55,29 +55,41 @@ func findLastNonnilValue(errors []errFact, res ssa.Value) ssa.Value {
 }
 
 func checkNilnesserr(pass *analysis.Pass, b *ssa.BasicBlock, errors []errFact, isNilnees func(value ssa.Value) bool) {
-	for i := range b.Instrs {
-		instr, ok := b.Instrs[i].(*ssa.Return)
-		if !ok {
+	for _, instr := range b.Instrs {
+		pos := instr.Pos()
+		if !pos.IsValid() {
 			continue
 		}
 
-		for _, res := range instr.Results {
-			if !isErrType(res) || isConstNil(res) || !isNilnees(res) {
-				continue
+		switch instr := instr.(type) {
+		case *ssa.Return:
+			for _, value := range instr.Results {
+				if checkSSAValue(value, errors, isNilnees) {
+					pass.Report(analysis.Diagnostic{
+						Pos:     pos,
+						Message: linterReturnMessage,
+					})
+				}
 			}
-			// check the lastValue error that is isnonnil
-			lastValue := findLastNonnilValue(errors, res)
-			if lastValue == nil {
-				continue
-			}
-			// report
-			pos := instr.Pos()
-			if pos.IsValid() {
-				pass.Report(analysis.Diagnostic{
-					Pos:     pos,
-					Message: linterMessage,
-				})
+		case *ssa.Call:
+			for _, value := range instr.Call.Args {
+				if checkSSAValue(value, errors, isNilnees) {
+					pass.Report(analysis.Diagnostic{
+						Pos:     pos,
+						Message: linterCallMessage,
+					})
+				}
 			}
 		}
 	}
+}
+
+func checkSSAValue(res ssa.Value, errors []errFact, isNilnees func(value ssa.Value) bool) bool {
+	if !isErrType(res) || isConstNil(res) || !isNilnees(res) {
+		return false
+	}
+	// check the lastValue error that is isnonnil
+	lastValue := findLastNonnilValue(errors, res)
+
+	return lastValue != nil
 }
