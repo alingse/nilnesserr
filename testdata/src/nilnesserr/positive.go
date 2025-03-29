@@ -123,10 +123,33 @@ func Call18() error {
 		_ = errors.Join(io.EOF, err)               // TODO
 		_ = errors.As(err, new(localError))        // want `call function with a nil value error after check error`
 		_ = errors.Unwrap(err)                     // want `call function with a nil value error after check error`
+		_ = isEOFErr(err)                          // want `call function with a nil value error after check error`
+		_ = Append(err, err2)                      // want `call function with a nil value error after check error`
+		_ = Errors(err)                            // want `call function with a nil value error after check error`
+		_ = Combine(err)                           // TODO
 
-		_ = fmt.Sprintf("call Do2 got err %+v", err)
+		_ = fmt.Sprintf("call Do2 got err %+v", err)  // TODO
 		return fmt.Errorf("call Do2 got err %w", err) // TODO
 	}
 
 	return nil
+}
+
+func isEOFErr(err error) bool {
+	return errors.Is(err, io.EOF)
+}
+
+func Append(left error, right error) error {
+	return errors.Join(left, right)
+}
+
+func Errors(err error) []error {
+	return []error{err}
+}
+
+func Combine(errors ...error) error {
+	if len(errors) == 0 {
+		return nil
+	}
+	return errors[0]
 }
