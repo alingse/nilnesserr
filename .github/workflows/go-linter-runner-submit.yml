@@ -19,6 +19,11 @@ on:
           the workflow to submit with each repo
           Default 'go-linter-runner.yml'
         default: "go-linter-runner.yml"
+      workflow_ref:
+        description: |
+          the branch to run workflow
+          Default ''
+        default: ''
 
 permissions:
   actions: write
@@ -37,5 +42,6 @@ jobs:
           submit_source_file: ${{ inputs.source }}
           submit_repo_count: ${{ inputs.count }}
           submit_workflow: ${{ inputs.workflow }}
+          submit_workflow_ref: ${{ inputs.workflow_ref }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
