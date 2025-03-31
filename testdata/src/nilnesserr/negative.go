@@ -3,6 +3,7 @@ package a
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -162,4 +163,23 @@ func Call13() error {
 		return err
 	}
 	return nil
+}
+
+func Do4() (error, error) {
+	return nil, nil
+}
+
+func Call19() (remoteErr error, err error) {
+	remoteErr, err = Do4()
+	if remoteErr != nil {
+		remoteErr = fmt.Errorf("run Call19 got %w", remoteErr)
+		err = nil
+		return
+	}
+	if err != nil {
+		///remoteErr = nil
+		err = fmt.Errorf("run Call19 got %w", err)
+		return
+	}
+	return
 }
