@@ -14,7 +14,7 @@ if err != nil {
 }
 err2 := do2()
 if err2 != nil {
-    return err // which should return err2 after check `err2 != nil`, but return a nil value error
+    return err // want `return a nil value error after check error`
 }
 ```
 
@@ -25,9 +25,9 @@ err := do()
 if err != nil {
     return err
 }
-_, ok := do2()
-if !ok {
-    return errors.Wrap(err)
+_, err2 := do2()
+if err2 != nil {
+    return errors.Wrap(err) // want `call function with a nil value error after check error`
 }
 ```
 
