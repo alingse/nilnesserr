@@ -12,6 +12,7 @@ Powered by nilness and nilerr.`
 
 	linterReturnMessage = "return a nil value error after check error"
 	linterCallMessage   = "call function with a nil value error after check error"
+	linterCall2Message  = "call variadic function with a nil value error after check error"
 )
 
 type LinterSetting struct{}
