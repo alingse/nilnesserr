@@ -23,11 +23,11 @@ jobs:
         with:
           action: run
           go_version: "1.23.0"
-          install_command: go install github.com/alingse/nilnesserr/cmd/nilnesserr@main
+          install_command: go install github.com/alingse/nilnesserr/cmd/nilnesserr@support-variadic-func
           linter_command: nilnesserr
-          includes: "[\"call function with a nil value error after check error\"]"
+          includes: "[\"call variadic function with a nil value error after check error\"]"
           excludes: "[]"
-          issue_id: 11
+          issue_id: 15
           repo_url: ${{ inputs.repo_url }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
