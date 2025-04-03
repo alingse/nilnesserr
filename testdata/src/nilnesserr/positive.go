@@ -118,18 +118,20 @@ func Call18() error {
 	}
 	err2 := Do2()
 	if err2 != nil {
-		_ = fmt.Errorf("call Do2 got err %w", err) // TODO
-		_ = errors.Is(err, io.EOF)                 // want `call function with a nil value error after check error`
-		_ = errors.Join(io.EOF, err)               // TODO
-		_ = errors.As(err, new(localError))        // want `call function with a nil value error after check error`
-		_ = errors.Unwrap(err)                     // want `call function with a nil value error after check error`
-		_ = isEOFErr(err)                          // want `call function with a nil value error after check error`
-		_ = Append(err, err2)                      // want `call function with a nil value error after check error`
-		_ = Errors(err)                            // want `call function with a nil value error after check error`
-		_ = Combine(err)                           // TODO
 
-		_ = fmt.Sprintf("call Do2 got err %+v", err)  // TODO
-		return fmt.Errorf("call Do2 got err %w", err) // TODO
+		_ = fmt.Errorf("call Do2 got err %w", err) // want `call variadic function with a nil value error after check error`
+
+		_ = errors.Is(err, io.EOF)          // want `call function with a nil value error after check error`
+		_ = errors.Join(io.EOF, err)        // want `call variadic function with a nil value error after check error`
+		_ = errors.As(err, new(localError)) // want `call function with a nil value error after check error`
+		_ = errors.Unwrap(err)              // want `call function with a nil value error after check error`
+		_ = isEOFErr(err)                   // want `call function with a nil value error after check error`
+		_ = Append(err, err2)               // want `call function with a nil value error after check error`
+		_ = Errors(err)                     // want `call function with a nil value error after check error`
+		_ = Combine(err)                    // want `call variadic function with a nil value error after check error`
+
+		_ = fmt.Sprintf("call Do2 got err %+v", err)         // want `call variadic function with a nil value error after check error`
+		return fmt.Errorf("call Do2 got err return %w", err) // want `call variadic function with a nil value error after check error`
 	}
 
 	return nil
