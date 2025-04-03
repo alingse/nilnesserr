@@ -18,11 +18,25 @@ if err2 != nil {
 }
 ```
 
+case 2
+
+```go
+err := do()
+if err != nil {
+    return err
+}
+_, ok := do2()
+if !ok {
+    return errors.Wrap(err)
+}
+```
+
 
 ## Some Real Bugs
 
 - https://github.com/alingse/sundrylint/issues/4
 - https://github.com/alingse/nilnesserr/issues/1
+- https://github.com/alingse/nilnesserr/issues/11
 
 We use https://github.com/alingse/go-linter-runner to run linter on GitHub Actions for public Go repos
 
@@ -35,20 +49,6 @@ go install github.com/alingse/nilnesserr/cmd/nilnesserr@latest
 
 ## TODO
 
-case 2
-
-```go
-err := do()
-if err != nil {
-    return err
-}
-_, ok := do2()
-if !ok {
-    return err
-}
-
-```
-
 case 3
 
 ```go
@@ -58,8 +58,9 @@ if err != nil {
 }
 _, ok := do2()
 if !ok {
-    return errors.Wrap(err)
+    return err
 }
+
 ```
 
 maybe this is also a bug, should return a non-nil value error after the if
