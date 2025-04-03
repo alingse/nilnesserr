@@ -169,17 +169,17 @@ func Do4() (error, error) {
 	return nil, nil
 }
 
-func Call19() (remoteErr error, err error) {
-	remoteErr, err = Do4()
+func Call19() (error, error) {
+	remoteErr, err := Do4()
 	if remoteErr != nil {
 		remoteErr = fmt.Errorf("run Call19 got %w", remoteErr)
 		err = nil
-		return
+		return remoteErr, err
 	}
 	if err != nil {
 		///remoteErr = nil
 		err = fmt.Errorf("run Call19 got %w", err)
-		return
+		return remoteErr, err
 	}
-	return
+	return remoteErr, err
 }
