@@ -87,7 +87,7 @@ func checkNilnesserr(pass *analysis.Pass, b *ssa.BasicBlock, errors []errFact, i
 				if checkSSAValue(value, errors, isNilnees) {
 					pass.Report(analysis.Diagnostic{
 						Pos:     pos,
-						Message: linterCall2Message,
+						Message: linterVariadicCallMessage,
 					})
 				}
 			}
