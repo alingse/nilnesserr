@@ -22,8 +22,8 @@ on:
       workflow_ref:
         description: |
           the branch to run workflow
-          Default ''
-        default: ''
+          Default 'main'
+        default: 'main'
 
 permissions:
   actions: write
