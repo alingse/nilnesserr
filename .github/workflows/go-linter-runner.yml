@@ -23,7 +23,7 @@ jobs:
         with:
           action: run
           go_version: "1.23.0"
-          install_command: go install github.com/alingse/nilnesserr/cmd/nilnesserr@add-check-errors-func
+          install_command: go install github.com/alingse/nilnesserr/cmd/nilnesserr@main
           linter_command: nilnesserr
           includes: "[\"call function with a nil value error after check error\"]"
           excludes: "[]"
