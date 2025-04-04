@@ -31,12 +31,26 @@ if err2 != nil {
 }
 ```
 
+case 3
+
+```go
+err := do()
+if err != nil {
+    return err
+}
+_, err2 := do2()
+if err2 != nil {
+    return fmt.Errorf("call do2 failed: %w",err) // want `call variadic function with a nil value error after check error`
+}
+```
+
 
 ## Some Real Bugs
 
 - https://github.com/alingse/sundrylint/issues/4
 - https://github.com/alingse/nilnesserr/issues/1
 - https://github.com/alingse/nilnesserr/issues/11
+- https://github.com/alingse/nilnesserr/issues/15
 
 We use https://github.com/alingse/go-linter-runner to run linter on GitHub Actions for public Go repos
 
